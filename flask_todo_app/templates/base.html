@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Flask Todo App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- https://www.flaticon.com/free-icons/post-it -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Flask Todo App</a>
+            {% if current_user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="{{ url_for('main.account') }}">{{ current_user.username }}</a>
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Sign out</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container pt-4">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootbox.min.js') }}"></script>
+    <script>
+        function createConfirmButtons() {
+            return {
+                confirm: {
+                    label: "Yes",
+                    className: "btn-primary",
+                },
+                cancel: {
+                    label: "No",
+                    className: "btn-secondary",
+                },
+            };
+        }
+
+        $(document).on("click", ".btn-delete-note", function(e) {
+            const val = this.value;
+
+            bootbox.confirm({
+                message: "Are you sure you want to delete this note?",
+                buttons: createConfirmButtons(),
+                callback: function(res) {
+                    if (res) {
+                        window.location.replace(`/notes/${val}/delete`);
+                    }
+                },
+            });
+        });
+
+        $(document).on("click", ".btn-delete-user", function(e) {
+            bootbox.confirm({
+                message: "Are you sure you want to delete this account?",
+                buttons: createConfirmButtons(),
+                callback: function(res) {
+                    if (res) {
+                        window.location.replace("{{ url_for('main.account_delete') }}");
+                    }
+                },
+            });
+        });
+    </script>
+</body>
+</html>

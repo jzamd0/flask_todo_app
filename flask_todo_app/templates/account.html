@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Account{% endblock %}
+{% block content %}
+    <div class="col-md">
+        {% include "alert.html" %}
+    </div>
+    <div class="col-md card card-body">
+        <h3 class="mb-4">
+            Account
+        </h3>
+        <form action="" method="post">
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" type="password" name="password" placeholder="Enter your password" required maxlength="255">
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password_new">New password</label>
+                <input class="form-control" type="password" name="password_new" placeholder="Enter your new password" required maxlength="255">
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password_confirm">Password</label>
+                <input class="form-control" type="password" name="password_confirm" placeholder="Enter your password" required maxlength="255">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Change password">
+            <hr class="md-4">
+            <button class="btn btn-danger btn-delete-user" value="{{ current_user.id }}">Delete account</button>
+        </form>
+    </div>
+{% endblock %}

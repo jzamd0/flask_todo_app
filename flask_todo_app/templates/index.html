@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="col-md">
+        {% include "alert.html" %}
+    </div>
+    <div class="col-md card card-body">
+        <div class="d-flex mb-4">
+            <h3 class="me-auto">
+                Notes
+            </h3>
+            <div class="justify-content-end">
+                <a class="btn btn-success" href="/notes/new">Add note</a>
+            </div>
+        </div>
+        {% if notes %}
+        <table class="table table-striped border bg-white table-sm align-middle">
+            <thead>
+                <th scope="col">Note</th>
+                <th scope="col">Updated</th>
+                <th scope="col"></th>
+            </thead>
+            <tbody>
+                {% for n in notes %}
+                <tr>
+                    <th scope="row" class="w-50">{{ n.title }}</th>
+                    <td class="w-25">{{ n.updated_at.strftime("%I:%M %p, %A, %d %b, %Y") }}</td>
+                    <td class="text-end ms-auto">
+                        <a href="/notes/{{ n.id }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-delete-note btn-sm" value="{{ n.id }}">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div>
+            You don't have any notes.
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
